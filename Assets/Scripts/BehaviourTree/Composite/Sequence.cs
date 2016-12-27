@@ -21,6 +21,7 @@ public class Sequence : Composite {
     }
 
     protected override void ChildFailed() {
+        Debug.Log("Sequence failed on " + this.controller.currTask.taskName);
         this.controller.FinishWithFailure();
         this.controller.currTask.controller.SafeEnd();
     }

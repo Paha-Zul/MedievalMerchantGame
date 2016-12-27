@@ -3,32 +3,45 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(Unit))]
 [RequireComponent(typeof(Inventory))]
 [RequireComponent(typeof(PlayerTeam))]
 public class Building : MonoBehaviour {
-    public string buildingName = "Default_Name";
-    public PlayerTeam playerTeam;
-    public Inventory inventory;
+    public Unit myUnit { get; private set; }
 
     public Queue<FootUnit> unitQueue = new Queue<FootUnit>();
-    public List<Vector3> walkSpots = new List<Vector3>();
+
+    public List<Transform> walkSpots = new List<Transform>();
+    public List<Transform> deliverySpots = new List<Transform>();
+    public List<Transform> workSpots = new List<Transform>();
+    public List<Transform> entranceSpots = new List<Transform>();
+    public List<Transform> sellSpots = new List<Transform>();
 
     public Task baseTask;
 
     public void Awake() {
         this.tag = "Building";
-        this.playerTeam = this.GetComponent<PlayerTeam>();
-        this.inventory = this.GetComponent<Inventory>();
+        this.myUnit = this.GetComponent<Unit>();
+
+        var walkspots = transform.FindChild("WalkSpots");
+        if (walkspots != null) {
+            foreach (Transform child in walkspots)
+                this.walkSpots.Add(child);
+        }
         
         //Get all of the walk spots
         foreach(Transform child in transform) {
-            if (child.name.Equals("WalkSpot"))
-                walkSpots.Add(child.position);
+            if (child.name.Equals("DeliverySpot"))
+                deliverySpots.Add(child);
+            else if(child.name.Equals("WorkSpot"))
+                workSpots.Add(child);
+            else if (child.name.Equals("EntranceSpot"))
+                entranceSpots.Add(child);
         }
     }
 
     public void Start() {
-        
+
     }
 
 

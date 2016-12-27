@@ -45,7 +45,7 @@ public class BehaviourManager : MonoBehaviour {
 	void Update () {
         if (!CurrTaskDone()) {
             this._currTask.Update(0.016f);
-            this.currTaskName = this._currTask.ToString().Split(',');
+            this.currTaskName = this._currTask.ToString().Split('#');
             if (!this._currTask.controller.running) {
                 onCompletionCallback();
             }
@@ -54,5 +54,10 @@ public class BehaviourManager : MonoBehaviour {
 
     public bool CurrTaskDone() {
         return currTask == null || !currTask.controller.running;
+    }
+
+    public void ResetCurrTask() {
+        if (currTask != null)
+            currTask.controller.reset();
     }
 }

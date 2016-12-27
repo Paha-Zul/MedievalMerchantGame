@@ -3,11 +3,17 @@ using System.Collections;
 
 [System.Serializable]
 public class Item{
-    public string name;
-    public int amount;
+    public string Name;
+    public int Amount;
 
     public Item(string name, int amount) {
-        this.name = name;
-        this.amount = amount;
+        this.Name = name;
+        this.Amount = amount;
+    }
+
+    public void Set(string name, int amount)
+    {
+        this.Name = name;
+        this.Amount = amount;
     }
 }

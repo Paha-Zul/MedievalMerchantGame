@@ -1,6 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿
 
+[System.Serializable]
 public class ItemProduction{
     public string inputItemName = "", outputItemName = "";
     public int inputItemAmount = 1, outputItemAmount = 1;

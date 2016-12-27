@@ -1,56 +1,52 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Util;
 
+[RequireComponent(typeof(Unit))]
 [RequireComponent(typeof(Inventory))]
 [RequireComponent(typeof(BehaviourManager))]
 [RequireComponent(typeof(PlayerTeam))]
 public class FootUnit : MonoBehaviour {
-    public BehaviourManager manager { get; private set; }
-    public PlayerTeam playerTeam { get; private set; }
-    public Inventory inventory { get; private set; }
+    
+    public Unit myUnit { get; private set; }
 
     public string unitName = "Such";
 
+    [HideInInspector] public PathNode CurrPathNode = null;
+
     public void Awake() {
         this.tag = "Foot";
-        this.playerTeam = this.GetComponent<PlayerTeam>();
-        this.manager = this.GetComponent<BehaviourManager>();
-        this.inventory = this.GetComponent<Inventory>();
-
-        manager.init();
-
-        manager.bb.myInventory = this.inventory;
-        manager.bb.myself = this.gameObject;
+        this.myUnit = this.GetComponent<Unit>();
     }
 
     public void Start() {
-        
+        this.myUnit.manager.bb.myFootUnit = this;
     }
 
     public void Update() {
-        if (manager.CurrTaskDone()) {
+        if (this.myUnit.manager.CurrTaskDone()) {
             GetHarvestResourceTask();
-            this.manager.onCompletionCallback = GetHarvestResourceTask;
+            this.myUnit.manager.onCompletionCallback = GetHarvestResourceTask;
         }
     }
 
     void GetHarvestResourceTask() {
-        var task = new Selector(manager.bb);
-        var sequence = new Sequence(manager.bb);
-        var building = this.playerTeam.team.buildingList[0];
+        var task = new Selector(this.myUnit.manager.bb);
+        var sequence = new Sequence(this.myUnit.manager.bb);
+        var building = this.myUnit.playerTeam.team.buildingList[0];
 
-        sequence.controller.AddTask(new GetClosestResource(manager.bb));
-        sequence.controller.AddTask(new CheckHasValidResource(manager.bb));
-        sequence.controller.AddTask(new MoveTo(manager.bb));
-        sequence.controller.AddTask(new HarvestTask(manager.bb));
-        sequence.controller.AddTask(new MoveTo(manager.bb, building.transform.position));
+        sequence.controller.AddTask(new GetClosestResource(this.myUnit.manager.bb));
+        sequence.controller.AddTask(new CheckHasValidResource(this.myUnit.manager.bb));
+        sequence.controller.AddTask(new MoveToNavmesh(this.myUnit.manager.bb));
+        sequence.controller.AddTask(new HarvestTask(this.myUnit.manager.bb));
+        sequence.controller.AddTask(new MoveToNavmesh(this.myUnit.manager.bb, building.transform.position));
 
-        var idle = new IdleTask(manager.bb, 1f);
+        var idle = new IdleTask(this.myUnit.manager.bb, 1f);
 
         task.controller.AddTask(sequence);
         task.controller.AddTask(idle);
 
-        manager.currTask = task;
+        this.myUnit.manager.currTask = task;
     }
 }

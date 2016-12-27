@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Inventory : MonoBehaviour {
+    public bool debug = false;
     public int maxItemTypes = 1;
     public int maxNumItems = 999999;
 
@@ -12,21 +14,27 @@ public class Inventory : MonoBehaviour {
 
     public Dictionary<string, Item> itemMap = new Dictionary<string, Item>();
 
-    public delegate void InventoryChangeCallback(int amtChange, bool newlyAdded, bool newlyRemoved); //Defines the callback delegate
-    public InventoryChangeCallback onInventoryChange { get; set; }   //The Callback variable. Set this to an empty function by default
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="name">The item name.</param>
+    /// <param name="amtChange">The amount changed. Positive means added, negative means removed.</param>
+    /// <param name="newlyChanged">If the item was new... ie: Added as a new item to the inventory (didn't exist before), just entirely removed from the inventory.</param>
+    public delegate void InventoryChangeCallback(string name, int amtChange, bool newlyChanged);
+    public InventoryChangeCallback onInventoryChange = (name, amt, newlyChanged) => { return; };   //The Callback variable. Set this to an empty function by default
 
     public List<Item> testItemList = new List<Item>();
+    public List<Item> debugItemList = new List<Item>();
 
     // Use this for initialization
     void Start () {
-        onInventoryChange = (amt, added, removed) => { return; };
-
         testItemList.ForEach(item => {
-            this.AddItem(item.name, item.amount);
+            this.AddItem(item.Name, item.Amount);
         });
     }
 
     public bool AddItem(string name, int amount) {
+        if (amount <= 0) return false;
         if(CanAddItem(name, amount)) {
             bool newlyAdded = false;
             Item item;
@@ -35,11 +43,13 @@ public class Inventory : MonoBehaviour {
                 itemMap.Add(name, item);
                 newlyAdded = true;
             } else {
-                item.amount += amount;
+                item.Amount += amount;
             }
+
             //TODO Account for the limit of items when addding? IE: we arleady have 90 and max is 100 but we're trying to add 20?
-            onInventoryChange(amount, newlyAdded, false);
+            onInventoryChange(name, amount, newlyAdded);
             numItemsInInventory += amount;
+            if (debug) debugItemList = itemMap.Values.ToList();
             return true;
         }
 
@@ -48,7 +58,7 @@ public class Inventory : MonoBehaviour {
 
     public bool AddItem(Item item) {
         //TODO Item is discarded here, maybe pooling if needed?
-        return this.AddItem(item.name, item.amount);
+        return this.AddItem(item.Name, item.Amount);
     }
 
     /// <summary>
@@ -63,16 +73,17 @@ public class Inventory : MonoBehaviour {
         if (itemMap.TryGetValue(name, out item)) {
             bool newlyRemoved = false;
             amountRemoved = amount; //Initially set this
-            item.amount -= amount; //Subtract the amount from the item.
+            item.Amount -= amount; //Subtract the amount from the item.
             //If it brought us below zero, add the amount removed to the negative amount in the item. This gives us what we actually COULD take.
-            if (item.amount < 0) {
-                amountRemoved += item.amount;
+            if (item.Amount < 0) {
+                amountRemoved += item.Amount;
                 itemMap.Remove(name); //Remove this from the map since we have no more.
                 newlyRemoved = true;
             }
 
             numItemsInInventory -= amountRemoved;
-            onInventoryChange(amountRemoved, false, newlyRemoved);
+            onInventoryChange(name, -amountRemoved, newlyRemoved);
+            if (debug) debugItemList = itemMap.Values.ToList();
         }
 
         return amountRemoved;
@@ -110,7 +121,7 @@ public class Inventory : MonoBehaviour {
     /// <returns>The amount of the item, or 0 if it does not exist.</returns>
     public int GetItemAmount(string name) {
         if (HasItem(name))
-            return itemMap[name].amount;
+            return itemMap[name].Amount;
 
         return 0;
     }

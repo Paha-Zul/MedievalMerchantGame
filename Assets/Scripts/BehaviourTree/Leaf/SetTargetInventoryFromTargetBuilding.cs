@@ -9,7 +9,7 @@ public class SetTargetInventoryFromTargetBuilding : LeafTask {
     public override void Start() {
         base.Start();
 
-        bb.targetInventory = bb.targetBuilding.inventory;
+        bb.targetInventory = bb.targetBuilding.myUnit.inventory;
         this.controller.FinishWithSuccess();
     }
 }

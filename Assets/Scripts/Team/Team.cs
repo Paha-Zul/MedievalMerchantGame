@@ -22,7 +22,7 @@ public class Player {
     }
 	
     public void addBuilding(Building building) {
-        building.playerTeam.team = this;
+        building.myUnit.playerTeam.team = this;
         buildingList.Add(building);
     }
 
@@ -32,7 +32,7 @@ public class Player {
     }
 
     public void addFootUnit(FootUnit unit) {
-        unit.playerTeam.team = this;
+        unit.myUnit.playerTeam.team = this;
         footUnitList.Add(unit);
     }
 

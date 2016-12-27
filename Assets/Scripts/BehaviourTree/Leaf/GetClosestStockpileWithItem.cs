@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Util;
 
 public class GetClosestStockpileWithItem : LeafTask {
     public GetClosestStockpileWithItem(BlackBoard blackboard, string itemName = "") : base(blackboard) {
-        if (!itemName.Equals("")) bb.targetItem.name = itemName;
+        if (!itemName.Equals("")) bb.targetItem.Name = itemName;
     }
 
     public override void Start() {
         base.Start();
 
-        Building building = Finder.FindClosestStockpileWithItem(TeamManager.GetTeam("Player1").buildingList, bb.myself.transform.position, bb.targetItem.name);
+        Building building = Finder.FindClosestStockpileWithItem(TeamManager.GetTeam("Player1").buildingList, bb.myself.transform.position, bb.targetItem.Name);
 
         //If nothing was found, finish with failure
         if (building == null) {
@@ -19,7 +20,7 @@ public class GetClosestStockpileWithItem : LeafTask {
          //If found, set the blackboard target and finish with success.
         } else {
             this.bb.targetBuilding = building;
-            this.bb.targetInventory = building.inventory;
+            this.bb.targetInventory = building.myUnit.inventory;
             this.controller.FinishWithSuccess();
         }
     }

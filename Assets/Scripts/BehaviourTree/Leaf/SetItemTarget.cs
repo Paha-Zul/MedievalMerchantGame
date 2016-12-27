@@ -3,8 +3,8 @@ using System.Collections;
 
 public class SetItemTarget : LeafTask {
     public SetItemTarget(BlackBoard blackboard, string itemName, int itemAmount) : base(blackboard) {
-        this.bb.targetItem.name = itemName;
-        this.bb.targetItem.amount = itemAmount;
+        this.bb.targetItem.Name = itemName;
+        this.bb.targetItem.Amount = itemAmount;
     }
 
     public override void Start() {

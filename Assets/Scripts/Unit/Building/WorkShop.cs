@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using BehaviourTree;
+using Util;
 
 public class WorkShop : Building {
     public enum WorkshopType { Lumber }
@@ -9,14 +11,21 @@ public class WorkShop : Building {
     private List<WorkerUnit> workerUnitList = new List<WorkerUnit>();
 
     public int itemsProducedAtATime = 20;
-    public ItemProduction itemProduction = new ItemProduction("Wood Log", "Wood Plank", 1, 1, 10f);
+    public string producesItem = "Wood Plank";
 
 	// Use this for initialization
 	void Start () {
         base.Start();
 
         StartCoroutine(AssignWorkers());
-    }
+
+	    //TESTING
+	    var entrance = entranceSpots[0];
+	    var work = workSpots[0];
+
+//	    var path = Util.Util.FindPathToNode(entrance.GetComponent<PathNode>(), work.GetComponent<PathNode>());
+//	    Debug.Log("Path: " + path);
+	}
 
     // Update is called once per frame
     void Update () {
@@ -45,18 +54,18 @@ public class WorkShop : Building {
         var count = workerUnitList.Count;
         if(count == 1) {
             var worker = workerUnitList[0];
-            if (worker.manager.idle) {
-                worker.manager.currTask = Tasks.ProduceItemAtWorkshop(worker.manager.bb, true);
+            if (worker.myUnit.manager.idle) {
+                worker.myUnit.manager.currTask = Tasks.SellItemFromStore(worker.myUnit.manager.bb);
             }
         }else if(count == 2) {
             var worker = workerUnitList[0];
-            if (worker.manager.idle) {
-                worker.manager.currTask = Tasks.ProduceItemAtWorkshop(worker.manager.bb, false);
+            if (worker.myUnit.manager.idle) {
+                worker.myUnit.manager.currTask = Tasks.ProduceItemAtWorkshop(worker.myUnit.manager.bb, false, true);
             }
 
             var worker2 = workerUnitList[1];
-            if (worker2.manager.idle) {
-                worker2.manager.currTask = Tasks.HaulTask(worker2.manager.bb);
+            if (worker2.myUnit.manager.idle) {
+                worker2.myUnit.manager.currTask = Tasks.HaulTask(worker2.myUnit.manager.bb);
             }
         }
     }

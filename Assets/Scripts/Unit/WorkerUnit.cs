@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Util;
 
 public class WorkerUnit : FootUnit {
     public WorkShop myBuilding;
 
+
+
     void Awake() {
         base.Awake();
-
-        this.manager.bb.myWorkerUnit = this;
     }
 
     // Use this for initialization
     void Start () {
         base.Start();
 
+        this.myUnit.manager.bb.myWorkerUnit = this;
         StartCoroutine(FindMyBuilding());
     }
 	

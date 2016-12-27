@@ -58,7 +58,7 @@ public class Composite : Task {
         if (this.controller.currTask != null)
             childName = this.controller.currTask.ToString();
 
-        var name = this.taskName + "," + childName;
+        var name = this.taskName + "#" + childName;
         return name;
     }
 }
