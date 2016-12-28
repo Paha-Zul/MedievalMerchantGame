@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Util;
 using UnityEngine;
 
 namespace Util
@@ -76,25 +77,24 @@ namespace Util
             }
         }
 
-        public static PathNode GetSpotOfBuilding(string spotName, Building building, int index = 0)
+        public static PathNode GetSpotOfBuilding(SpotType spotType, Building building, int index = 0)
         {
             PathNode closestNode = null;
 
-            if (!spotName.Equals(""))
+            switch (spotType)
             {
-                //TODO Handle multiple spots here in the array...
-                if (spotName.Equals("work"))
-                {
-                    closestNode = building.workSpots[index].GetComponent<PathNode>();
-                }
-                else if (spotName.Equals("sell"))
-                {
-                    closestNode = building.sellSpots[index].GetComponent<PathNode>();
-                }
-                else if (spotName.Equals("entrance"))
-                {
+                case SpotType.Entrance:
                     closestNode = building.entranceSpots[index].GetComponent<PathNode>();
-                }
+                    break;
+                case SpotType.Work:
+                    closestNode = building.workSpots[index].GetComponent<PathNode>();
+                    break;
+                case SpotType.Sell:
+                    closestNode = building.sellSpots[index].GetComponent<PathNode>();
+                    break;
+                default:
+                    closestNode = building.entranceSpots[index].GetComponent<PathNode>();
+                    break;
             }
 
             return closestNode;

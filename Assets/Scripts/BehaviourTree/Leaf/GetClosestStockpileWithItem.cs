@@ -3,12 +3,18 @@ using System.Collections;
 using Util;
 
 public class GetClosestStockpileWithItem : LeafTask {
+    private readonly string _itemName;
+
     public GetClosestStockpileWithItem(BlackBoard blackboard, string itemName = "") : base(blackboard) {
-        if (!itemName.Equals("")) bb.targetItem.Name = itemName;
+        _itemName = itemName;
+        
     }
 
     public override void Start() {
         base.Start();
+
+        if (!_itemName.Equals(""))
+            bb.targetItem.Name = _itemName;
 
         Building building = Finder.FindClosestStockpileWithItem(TeamManager.GetTeam("Player1").buildingList, bb.myself.transform.position, bb.targetItem.Name);
 

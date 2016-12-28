@@ -16,8 +16,8 @@ public class CompositeController : TaskController {
         return task;
     }
 
-    public override void reset() {
-        base.reset();
+    public override void Reset() {
+        base.Reset();
         this.currTask = null;
         this.index = 0;
     }

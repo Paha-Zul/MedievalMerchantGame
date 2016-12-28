@@ -110,9 +110,10 @@ public class Inventory : MonoBehaviour {
     /// </summary>
     /// <param name="name">The name of the Item.</param>
     /// <returns>True if the Item exists, false otherwise.</returns>
-    public bool HasItem(string name) {
-        return itemMap.ContainsKey(name);
+    public bool HasItem(string itemName) {
+        return itemMap.ContainsKey(itemName);
     }
+
 
     /// <summary>
     /// Gets the amount of an Item. If 0, the item does not exist in the Inventory.

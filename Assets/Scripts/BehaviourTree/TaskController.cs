@@ -48,7 +48,8 @@ public class TaskController {
     /// <summary>
     /// Resets the TaskController and its task
     /// </summary>
-    public virtual void reset() {
+    public virtual void Reset() {
         this.success = this.failed = this.running = false;
+        this.task.Reset();
     }
 }

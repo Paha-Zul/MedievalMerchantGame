@@ -9,44 +9,44 @@ using Util;
 [RequireComponent(typeof(PlayerTeam))]
 public class FootUnit : MonoBehaviour {
     
-    public Unit myUnit { get; private set; }
+    public Unit MyUnit { get; private set; }
 
-    public string unitName = "Such";
+    public string UnitName = "Such";
 
-    [HideInInspector] public PathNode CurrPathNode = null;
+    public PathNode CurrPathNode = null;
 
     public void Awake() {
         this.tag = "Foot";
-        this.myUnit = this.GetComponent<Unit>();
+        this.MyUnit = this.GetComponent<Unit>();
     }
 
     public void Start() {
-        this.myUnit.manager.bb.myFootUnit = this;
+        this.MyUnit.manager.bb.myFootUnit = this;
     }
 
     public void Update() {
-        if (this.myUnit.manager.CurrTaskDone()) {
+        if (this.MyUnit.manager.CurrTaskDone()) {
             GetHarvestResourceTask();
-            this.myUnit.manager.onCompletionCallback = GetHarvestResourceTask;
+            this.MyUnit.manager.onCompletionCallback = GetHarvestResourceTask;
         }
     }
 
     void GetHarvestResourceTask() {
-        var task = new Selector(this.myUnit.manager.bb);
-        var sequence = new Sequence(this.myUnit.manager.bb);
-        var building = this.myUnit.playerTeam.team.buildingList[0];
+        var task = new Selector(this.MyUnit.manager.bb);
+        var sequence = new Sequence(this.MyUnit.manager.bb);
+        var building = this.MyUnit.playerTeam.team.buildingList[0];
 
-        sequence.controller.AddTask(new GetClosestResource(this.myUnit.manager.bb));
-        sequence.controller.AddTask(new CheckHasValidResource(this.myUnit.manager.bb));
-        sequence.controller.AddTask(new MoveToNavmesh(this.myUnit.manager.bb));
-        sequence.controller.AddTask(new HarvestTask(this.myUnit.manager.bb));
-        sequence.controller.AddTask(new MoveToNavmesh(this.myUnit.manager.bb, building.transform.position));
+        sequence.controller.AddTask(new GetClosestResource(this.MyUnit.manager.bb));
+        sequence.controller.AddTask(new CheckHasValidResource(this.MyUnit.manager.bb));
+        sequence.controller.AddTask(new MoveToNavmesh(this.MyUnit.manager.bb));
+        sequence.controller.AddTask(new HarvestTask(this.MyUnit.manager.bb));
+        sequence.controller.AddTask(new MoveToNavmesh(this.MyUnit.manager.bb, building.transform.position));
 
-        var idle = new IdleTask(this.myUnit.manager.bb, 1f);
+        var idle = new IdleTask(this.MyUnit.manager.bb, 1f);
 
         task.controller.AddTask(sequence);
         task.controller.AddTask(idle);
 
-        this.myUnit.manager.currTask = task;
+        this.MyUnit.manager.currTask = task;
     }
 }

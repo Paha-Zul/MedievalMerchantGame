@@ -34,6 +34,8 @@
                     this.bb.targetPosition.Set(0, 0, 0);
                     break;
             }
+
+            this.controller.FinishWithSuccess();
         }
     }
 }

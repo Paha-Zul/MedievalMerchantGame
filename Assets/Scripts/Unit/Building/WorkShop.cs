@@ -54,18 +54,18 @@ public class WorkShop : Building {
         var count = workerUnitList.Count;
         if(count == 1) {
             var worker = workerUnitList[0];
-            if (worker.myUnit.manager.idle) {
-                worker.myUnit.manager.currTask = Tasks.SellItemFromStore(worker.myUnit.manager.bb);
+            if (worker.MyUnit.manager.idle) {
+                worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, true, true);
             }
         }else if(count == 2) {
             var worker = workerUnitList[0];
-            if (worker.myUnit.manager.idle) {
-                worker.myUnit.manager.currTask = Tasks.ProduceItemAtWorkshop(worker.myUnit.manager.bb, false, true);
+            if (worker.MyUnit.manager.idle) {
+                worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, false, true);
             }
 
             var worker2 = workerUnitList[1];
-            if (worker2.myUnit.manager.idle) {
-                worker2.myUnit.manager.currTask = Tasks.HaulTask(worker2.myUnit.manager.bb);
+            if (worker2.MyUnit.manager.idle) {
+                worker2.MyUnit.manager.currTask = Tasks.HaulTask(worker2.MyUnit.manager.bb, "Wood Log");
             }
         }
     }

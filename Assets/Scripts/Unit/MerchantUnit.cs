@@ -12,14 +12,14 @@ public class MerchantUnit : FootUnit {
     void Start () {
         base.Start();
 
-        this.myUnit.manager.currTask = Tasks.BuyItem(this.myUnit.manager.bb, "Wood Plank", 10);
+        this.MyUnit.manager.currTask = Tasks.BuyItem(this.MyUnit.manager.bb, "Wood Plank", 10);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (this.myUnit.manager.CurrTaskDone()) {
-            this.myUnit.manager.currTask = Tasks.BuyItem(this.myUnit.manager.bb, "Wood Plank", 10);
+        if (this.MyUnit.manager.CurrTaskDone()) {
+            this.MyUnit.manager.currTask = Tasks.BuyItem(this.MyUnit.manager.bb, "Wood Plank", 10);
         }
 	}
 }

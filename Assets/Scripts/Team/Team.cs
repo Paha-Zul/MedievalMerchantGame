@@ -32,7 +32,7 @@ public class Player {
     }
 
     public void addFootUnit(FootUnit unit) {
-        unit.myUnit.playerTeam.team = this;
+        unit.MyUnit.playerTeam.team = this;
         footUnitList.Add(unit);
     }
 

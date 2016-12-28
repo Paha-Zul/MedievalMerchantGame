@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
 public class ProduceItemAtWorkshop : LeafTask {
-    float counter = 0f;
+    private float _counter = 0f;
 
-    DataDefs.ProductionDef itemProduction;
-    Inventory workshopInv;
+    private DataDefs.ProductionDef _itemProduction;
+    private Inventory _workshopInv;
 
     public ProduceItemAtWorkshop(BlackBoard blackboard) : base(blackboard) {
 
@@ -18,29 +18,34 @@ public class ProduceItemAtWorkshop : LeafTask {
             this.controller.FinishWithFailure();
         }
 
-        itemProduction = DataDefs.prodDefMap[bb.myWorkerUnit.myBuilding.producesItem];
-        workshopInv = bb.myWorkerUnit.myBuilding.myUnit.inventory;
+        _itemProduction = DataDefs.prodDefMap[bb.myWorkerUnit.myBuilding.producesItem];
+        _workshopInv = bb.myWorkerUnit.myBuilding.myUnit.inventory;
     }
 
     public override void Update(float delta) {
         base.Update(delta);
 
-        counter += delta;
+        _counter += delta;
 
         //When the counter reaches the threshold, produce the item.
-        if(counter >= itemProduction.baseProdTime) {
+        if(_counter >= _itemProduction.baseProdTime) {
             WorkerUnit worker = bb.myWorkerUnit;
 
             //Get the amount to produce. Limit this by the amount set on the workshop building.
-            var amtToProduce = Mathf.Min(workshopInv.GetItemAmount(itemProduction.inputItem), itemProduction.inputAmount);
+            var amtToProduce = Mathf.Min(_workshopInv.GetItemAmount(_itemProduction.inputItem), _itemProduction.inputAmount);
 
             //Remove the item that was needed to produce, and add the produced item. A switcharoo!
-            workshopInv.RemoveItemAmount(itemProduction.inputItem, amtToProduce);
-            workshopInv.AddItem(itemProduction.outputItem, itemProduction.outputAmount);
+            _workshopInv.RemoveItemAmount(_itemProduction.inputItem, amtToProduce);
+            _workshopInv.AddItem(_itemProduction.outputItem, _itemProduction.outputAmount);
 
             this.controller.FinishWithSuccess();
-            Debug.Log("Task: Produced " + itemProduction.outputItem);
+            Debug.Log("Task: Produced " + _itemProduction.outputItem);
         }
     }
 
+    public override void Reset()
+    {
+        base.Reset();
+        _counter = 0f;
+    }
 }

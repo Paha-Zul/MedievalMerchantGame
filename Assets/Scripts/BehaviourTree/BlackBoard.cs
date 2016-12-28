@@ -12,8 +12,11 @@ public class BlackBoard {
     public Vector3 targetPosition = new Vector3();
     public Building targetBuilding;
     public Inventory targetInventory;
+    public Resource targetResource;
     public FootUnit targetFootUnit;
     public Item targetItem = new Item("", 0);
+
+    public bool QueueFlag = false;
 	
     public BlackBoard() {
 

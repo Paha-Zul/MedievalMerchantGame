@@ -2,13 +2,20 @@
 using System.Collections;
 
 public class SetItemTarget : LeafTask {
-    public SetItemTarget(BlackBoard blackboard, string itemName, int itemAmount) : base(blackboard) {
-        this.bb.targetItem.Name = itemName;
-        this.bb.targetItem.Amount = itemAmount;
+    private readonly string _itemName;
+    private readonly int _itemAmount;
+
+    public SetItemTarget(BlackBoard blackboard, string itemName, int itemAmount) : base(blackboard)
+    {
+        _itemName = itemName;
+        _itemAmount = itemAmount;
     }
 
     public override void Start() {
         base.Start();
+
+        this.bb.targetItem.Name = _itemName;
+        this.bb.targetItem.Amount = _itemAmount;
 
         this.controller.FinishWithSuccess();
     }

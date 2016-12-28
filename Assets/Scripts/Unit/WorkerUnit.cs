@@ -15,7 +15,7 @@ public class WorkerUnit : FootUnit {
     void Start () {
         base.Start();
 
-        this.myUnit.manager.bb.myWorkerUnit = this;
+        this.MyUnit.manager.bb.myWorkerUnit = this;
         StartCoroutine(FindMyBuilding());
     }
 	

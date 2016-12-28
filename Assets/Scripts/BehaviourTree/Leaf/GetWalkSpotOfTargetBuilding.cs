@@ -6,7 +6,7 @@ using Assets.Scripts.Util;
 /// Gets the spot of a building and sets it as the blackboard.targetPosition
 /// </summary>
 public class GetSpotOfBuilding : LeafTask {
-    readonly SpotType _spotType;
+    private readonly SpotType _spotType;
 
     /// <summary>
     /// Gets the spot of a building (entrace, walk, work, etc) and sets that spot as the target position in the blackboard

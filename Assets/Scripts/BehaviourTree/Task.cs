@@ -31,6 +31,11 @@ public class Task {
 
     }
 
+    public virtual void Reset()
+    {
+
+    }
+
     public override string ToString() {
         return this.taskName;
     }

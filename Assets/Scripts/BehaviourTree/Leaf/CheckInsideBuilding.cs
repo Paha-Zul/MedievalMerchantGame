@@ -4,6 +4,7 @@
     {
         public CheckInsideBuilding(BlackBoard blackboard) : base(blackboard)
         {
+
         }
 
         public override void Start()

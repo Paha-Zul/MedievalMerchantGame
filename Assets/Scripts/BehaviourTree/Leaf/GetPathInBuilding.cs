@@ -24,7 +24,6 @@ namespace BehaviourTree.Leaf
         public override void Start() {
             base.Start();
 
-
             var spots = bb.targetBuilding.walkSpots.Count - 1;
 
             PathNode start = GetPathPoint();
@@ -60,16 +59,12 @@ namespace BehaviourTree.Leaf
             {
                 case PathType.Work:
                     return bb.targetBuilding.workSpots[0].GetComponent<PathNode>();
-                    break;
                 case PathType.Sell:
                     return bb.targetBuilding.sellSpots[0].GetComponent<PathNode>();
-                    break;
                 case PathType.Entrance:
                     return bb.targetBuilding.entranceSpots[0].GetComponent<PathNode>();
-                    break;
                 default:
                     return bb.myFootUnit.CurrPathNode;
-                    break;
             }
         }
     }

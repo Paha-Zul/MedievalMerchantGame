@@ -27,7 +27,7 @@ public class BehaviourManager : MonoBehaviour {
         set
         {
             _currTask = value;
-            _currTask.controller.reset();
+            _currTask.controller.Reset();
             _currTask.controller.SafeStart();
         }
     }
@@ -58,6 +58,6 @@ public class BehaviourManager : MonoBehaviour {
 
     public void ResetCurrTask() {
         if (currTask != null)
-            currTask.controller.reset();
+            currTask.controller.Reset();
     }
 }
