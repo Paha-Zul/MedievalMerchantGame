@@ -24,25 +24,28 @@ namespace BehaviourTree.Leaf
         public override void Start() {
             base.Start();
 
-            var spots = bb.targetBuilding.walkSpots.Count - 1;
+            var spots = bb.targetBuilding.BuySpots.Count - 1;
 
             PathNode start = GetPathPoint();
             PathNode end = null;
 
             //TODO Handle more than 1 entrance spot?
             if (start == null)
-                start = bb.targetBuilding.entranceSpots[0].GetComponent<PathNode>(); //If our start is still null, use the first entrance spot.
+                start = bb.targetBuilding.EntranceSpots[0].GetComponent<PathNode>(); //If our start is still null, use the first entrance spot.
 
             switch (_pathTarget)
             {
                 case PathType.Work:
-                    end = bb.targetBuilding.workSpots[0].GetComponent<PathNode>();
+                    end = bb.targetBuilding.WorkSpots[0].GetComponent<PathNode>();
                     break;
                 case PathType.Sell:
-                    end = bb.targetBuilding.sellSpots[0].GetComponent<PathNode>();
+                    end = bb.targetBuilding.SellSpots[0].GetComponent<PathNode>();
+                    break;
+                case PathType.Entrance:
+                    end = bb.targetBuilding.EntranceSpots[0].GetComponent<PathNode>();
                     break;
                 default:
-                    end = bb.targetBuilding.sellSpots[0].GetComponent<PathNode>();
+                    end = bb.targetBuilding.SellSpots[0].GetComponent<PathNode>();
                     break;
             }
 
@@ -58,11 +61,11 @@ namespace BehaviourTree.Leaf
             switch (_pathStart)
             {
                 case PathType.Work:
-                    return bb.targetBuilding.workSpots[0].GetComponent<PathNode>();
+                    return bb.targetBuilding.WorkSpots[0].GetComponent<PathNode>();
                 case PathType.Sell:
-                    return bb.targetBuilding.sellSpots[0].GetComponent<PathNode>();
+                    return bb.targetBuilding.SellSpots[0].GetComponent<PathNode>();
                 case PathType.Entrance:
-                    return bb.targetBuilding.entranceSpots[0].GetComponent<PathNode>();
+                    return bb.targetBuilding.EntranceSpots[0].GetComponent<PathNode>();
                 default:
                     return bb.myFootUnit.CurrPathNode;
             }

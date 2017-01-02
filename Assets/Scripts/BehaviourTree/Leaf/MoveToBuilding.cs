@@ -23,6 +23,7 @@ public class MoveToBuilding : LeafTask {
         agent = bb.myself.GetComponent<NavMeshAgent>();
         agent.destination = this.targetPosition;
         agent.Resume();
+        agent.updatePosition = true;
     }
 
     public override void Update(float delta) {

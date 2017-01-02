@@ -84,16 +84,16 @@ namespace Util
             switch (spotType)
             {
                 case SpotType.Entrance:
-                    closestNode = building.entranceSpots[index].GetComponent<PathNode>();
+                    closestNode = building.EntranceSpots[index].GetComponent<PathNode>();
                     break;
                 case SpotType.Work:
-                    closestNode = building.workSpots[index].GetComponent<PathNode>();
+                    closestNode = building.WorkSpots[index].GetComponent<PathNode>();
                     break;
                 case SpotType.Sell:
-                    closestNode = building.sellSpots[index].GetComponent<PathNode>();
+                    closestNode = building.SellSpots[index].GetComponent<PathNode>();
                     break;
                 default:
-                    closestNode = building.entranceSpots[index].GetComponent<PathNode>();
+                    closestNode = building.EntranceSpots[index].GetComponent<PathNode>();
                     break;
             }
 

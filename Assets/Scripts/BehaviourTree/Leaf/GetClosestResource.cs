@@ -12,10 +12,10 @@ public class GetClosestResource : LeafTask {
         this.bb.targetResource = null; //Set this to null initially
 
         this.bb.targetResource = FindClosestResource();
-        this.bb.targetPosition = new Vector3();
+        this.bb.targetPosition = null;
         if (this.bb.targetResource) {
             var added = this.bb.targetResource.AddHarvester();
-            this.bb.targetPosition = this.bb.targetResource.transform.position;
+            this.bb.targetPosition = this.bb.targetResource.transform;
             if(added)
                 this.controller.FinishWithSuccess();
         }else {

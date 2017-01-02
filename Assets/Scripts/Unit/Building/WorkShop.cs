@@ -17,14 +17,12 @@ public class WorkShop : Building {
 	void Start () {
         base.Start();
 
-        StartCoroutine(AssignWorkers());
+        StartCoroutine(AssignWorkersCoroutine());
 
 	    //TESTING
-	    var entrance = entranceSpots[0];
-	    var work = workSpots[0];
+	    var entrance = EntranceSpots[0];
+	    var work = WorkSpots[0];
 
-//	    var path = Util.Util.FindPathToNode(entrance.GetComponent<PathNode>(), work.GetComponent<PathNode>());
-//	    Debug.Log("Path: " + path);
 	}
 
     // Update is called once per frame
@@ -40,33 +38,60 @@ public class WorkShop : Building {
         this.workerUnitList.Remove(worker);
     }
 
-    IEnumerator AssignWorkers() {
+    IEnumerator AssignWorkersCoroutine() {
         var wait = new WaitForSeconds(1f);
 
         for (;;) {
-            assignWorkers();
+            AssignWorkers();
             yield return wait;
         }
         
     }
 
-    void assignWorkers() {
+    void AssignWorkers()
+    {
         var count = workerUnitList.Count;
-        if(count == 1) {
-            var worker = workerUnitList[0];
-            if (worker.MyUnit.manager.idle) {
-                worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, true, true);
+        switch (count)
+        {
+            case 1:
+            {
+                var worker = workerUnitList[0];
+                if (worker.MyUnit.manager.idle) {
+                    worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, true, true);
+                }
             }
-        }else if(count == 2) {
-            var worker = workerUnitList[0];
-            if (worker.MyUnit.manager.idle) {
-                worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, false, true);
-            }
+                break;
+            case 2:
+            {
+                var worker = workerUnitList[0];
+                if (worker.MyUnit.manager.idle) {
+                    worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, false, true);
+                }
 
-            var worker2 = workerUnitList[1];
-            if (worker2.MyUnit.manager.idle) {
-                worker2.MyUnit.manager.currTask = Tasks.HaulTask(worker2.MyUnit.manager.bb, "Wood Log");
+                var worker2 = workerUnitList[1];
+                if (worker2.MyUnit.manager.idle) {
+                    worker2.MyUnit.manager.currTask = Tasks.HaulTask(worker2.MyUnit.manager.bb, "Wood Log");
+                }
             }
+                break;
+            case 3:
+            {
+                var worker = workerUnitList[0];
+                if (worker.MyUnit.manager.idle) {
+                    worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, false, false);
+                }
+
+                var worker2 = workerUnitList[1];
+                if (worker2.MyUnit.manager.idle) {
+                    worker2.MyUnit.manager.currTask = Tasks.HaulTask(worker2.MyUnit.manager.bb, "Wood Log");
+                }
+
+                var worker3 = workerUnitList[2];
+                if (worker3.MyUnit.manager.idle) {
+                    worker3.MyUnit.manager.currTask = Tasks.SellItemFromStore(worker3.MyUnit.manager.bb);
+                }
+            }
+                break;
         }
     }
 

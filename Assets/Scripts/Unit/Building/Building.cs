@@ -11,11 +11,11 @@ public class Building : MonoBehaviour {
 
     public Queue<FootUnit> unitQueue = new Queue<FootUnit>();
 
-    public List<Transform> walkSpots = new List<Transform>();
-    public List<Transform> deliverySpots = new List<Transform>();
-    public List<Transform> workSpots = new List<Transform>();
-    public List<Transform> entranceSpots = new List<Transform>();
-    public List<Transform> sellSpots = new List<Transform>();
+    public List<Transform> BuySpots = new List<Transform>();
+    public List<Transform> DeliverySpots = new List<Transform>();
+    public List<Transform> WorkSpots = new List<Transform>();
+    public List<Transform> EntranceSpots = new List<Transform>();
+    public List<Transform> SellSpots = new List<Transform>();
 
     public Task baseTask;
 
@@ -23,20 +23,22 @@ public class Building : MonoBehaviour {
         this.tag = "Building";
         this.myUnit = this.GetComponent<Unit>();
 
-        var walkspots = transform.FindChild("WalkSpots");
-        if (walkspots != null) {
-            foreach (Transform child in walkspots)
-                this.walkSpots.Add(child);
-        }
-        
-        //Get all of the walk spots
-        foreach(Transform child in transform) {
-            if (child.name.Equals("DeliverySpot"))
-                deliverySpots.Add(child);
-            else if(child.name.Equals("WorkSpot"))
-                workSpots.Add(child);
-            else if (child.name.Equals("EntranceSpot"))
-                entranceSpots.Add(child);
+        var spots = transform.FindChild("Spots");
+
+        if (spots != null) {
+            //Get all of the walk spots
+            foreach (Transform child in spots) {
+                if (child.CompareTag("Spot_Delivery"))
+                    DeliverySpots.Add(child);
+                else if (child.CompareTag("Spot_Work"))
+                    WorkSpots.Add(child);
+                else if (child.CompareTag("Spot_Entrance"))
+                    EntranceSpots.Add(child);
+                else if (child.CompareTag("Spot_Buy"))
+                    BuySpots.Add(child);
+                else if (child.CompareTag("Spot_Sell"))
+                    SellSpots.Add(child);
+            }
         }
     }
 

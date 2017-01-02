@@ -21,11 +21,12 @@ public class MoveToNavmesh : LeafTask {
     public override void Start() {
         base.Start();
         this.bb.myFootUnit.CurrPathNode = null; //Reset this. Since we are moving on the navmesh it means we're not inside a building or following a path.
-        this._targetPosition = _incomingPosition ?? this.bb.targetPosition;
+        this._targetPosition = _incomingPosition ?? this.bb.targetPosition.position;
 
         _agent = bb.myself.GetComponent<NavMeshAgent>();
         _agent.destination = this._targetPosition;
         _agent.Resume();
+        _agent.updatePosition = true;
     }
 
     public override void Update(float delta) {

@@ -39,7 +39,6 @@ public class ProduceItemAtWorkshop : LeafTask {
             _workshopInv.AddItem(_itemProduction.outputItem, _itemProduction.outputAmount);
 
             this.controller.FinishWithSuccess();
-            Debug.Log("Task: Produced " + _itemProduction.outputItem);
         }
     }
 

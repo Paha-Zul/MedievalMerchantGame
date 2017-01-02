@@ -21,7 +21,7 @@
                     this.bb.targetInventory = null;
                     break;
                 case TargetType.Position:
-                    this.bb.targetPosition.Set(0, 0, 0);
+                    this.bb.targetPosition = null;
                     break;
                 case TargetType.Item:
                     this.bb.targetItem.Set("", 0);
@@ -31,7 +31,7 @@
                     this.bb.targetBuilding = null;
                     this.bb.targetFootUnit = null;
                     this.bb.targetInventory = null;
-                    this.bb.targetPosition.Set(0, 0, 0);
+                    this.bb.targetPosition = null;
                     break;
             }
 

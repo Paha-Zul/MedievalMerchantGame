@@ -20,28 +20,28 @@ public class GetSpotOfBuilding : LeafTask {
     public override void Start() {
         base.Start();
         int spots;
-        Vector3 spot;
+        Transform spot;
 
         switch (_spotType)
         {
             case SpotType.Entrance:
-                spots = bb.targetBuilding.entranceSpots.Count - 1;
-                spot = bb.targetBuilding.entranceSpots[Random.Range(0, spots)].position;
+                spots = bb.targetBuilding.EntranceSpots.Count - 1;
+                spot = bb.targetBuilding.EntranceSpots[Random.Range(0, spots)];
                 break;
             case SpotType.Walk:
-                spots = bb.targetBuilding.walkSpots.Count - 1;
-                spot = bb.targetBuilding.walkSpots[Random.Range(0, spots)].position;
+                spots = bb.targetBuilding.BuySpots.Count - 1;
+                spot = bb.targetBuilding.BuySpots[Random.Range(0, spots)];
                 break;
             case SpotType.Work:
-                spots = bb.targetBuilding.workSpots.Count - 1;
-                spot = bb.targetBuilding.workSpots[Random.Range(0, spots)].position;
+                spots = bb.targetBuilding.WorkSpots.Count - 1;
+                spot = bb.targetBuilding.WorkSpots[Random.Range(0, spots)];
                 break;
             case SpotType.Delivery:
-                spots = bb.targetBuilding.deliverySpots.Count - 1;
-                spot = bb.targetBuilding.deliverySpots[Random.Range(0, spots)].position;
+                spots = bb.targetBuilding.DeliverySpots.Count - 1;
+                spot = bb.targetBuilding.DeliverySpots[Random.Range(0, spots)];
                 break;
             default:
-                spot = Vector3.zero;
+                spot = null;
                 break;
         }
 

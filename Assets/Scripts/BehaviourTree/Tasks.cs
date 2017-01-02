@@ -79,8 +79,9 @@ namespace BehaviourTree
             if (handleHauling)
             {
                 //Set up the leave building and haul sequence
-                leaveAndHaul.controller.AddTask(new AlwaysSucceed(bb, leaveBuilding));
-                leaveAndHaul.controller.AddTask(new AlwaysSucceed(bb, haulSequence));
+                leaveAndHaul.controller.AddTask(new NegateDecorator(bb, new CheckWorkshopHasInputItem(bb))); //We only need to haul if we need the input item.
+                leaveAndHaul.controller.AddTask(new AlwaysSucceed(bb, leaveBuilding)); //This will leave the building (if needed)
+                leaveAndHaul.controller.AddTask(new AlwaysSucceed(bb, haulSequence)); //This will haul the item.
 
                 //Add it to the main sequence
                 mainSequence.controller.AddTask(alwaysSucceedHaul);
@@ -224,9 +225,6 @@ namespace BehaviourTree
             var moveToBuilding = new MoveToNavmesh(bb);
             var enterQueue = new EnterTargetBuildingQueue(bb);
             var waitToBuy = new WaitTimeOrCondition(bb, 20f, () => bb.QueueFlag);
-            var idleBeforeBuy = new IdleTask(bb);
-            var buyItem = new BuyItem(bb);
-            var idleAfterBuy = new IdleTask(bb);
             var getExit = new GetWorldExit(bb);
             var moveToExit = new MoveToNavmesh(bb);
             var destroyMyself = new DestroySelf(bb);

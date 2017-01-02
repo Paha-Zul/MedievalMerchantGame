@@ -9,7 +9,7 @@ public class BlackBoard {
     public FootUnit myFootUnit;
 
     public Transform[] waypoints;
-    public Vector3 targetPosition = new Vector3();
+    public Transform targetPosition;
     public Building targetBuilding;
     public Inventory targetInventory;
     public Resource targetResource;

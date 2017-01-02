@@ -8,7 +8,7 @@ public class GetWorldExit : LeafTask {
     public override void Start() {
         base.Start();
 
-        this.bb.targetPosition = GameMainScript.enterExitSpots[0].transform.position;
+        this.bb.targetPosition = GameMainScript.enterExitSpots[0].transform;
 
         this.controller.FinishWithSuccess();
     }
