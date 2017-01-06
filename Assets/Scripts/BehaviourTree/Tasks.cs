@@ -50,7 +50,7 @@ namespace BehaviourTree
 
             var setTargetBuilding = new SetMyBuildingAsTarget(bb);
             var checkInsideBuilding = new CheckInsideBuilding(bb);
-            var getPathToOutside = new GetPathInBuilding(bb, PathType.Entrance, PathType.Curr);
+            var getPathToOutside = new GetPathInBuilding(bb, SpotType.Entrance, SpotType.Curr);
             var moveTo = new MoveTo(bb);
 
             mainSequence.controller.AddTask(setTargetBuilding);
@@ -113,7 +113,7 @@ namespace BehaviourTree
             var setInsideBuilding = new SetFootUnitCurrSpotFromBuilding(bb, SpotType.Entrance);
 
             //Normal
-            var getWorkSpot = new GetPathInBuilding(bb, PathType.Work, PathType.Curr);
+            var getWorkSpot = new GetPathInBuilding(bb, SpotType.Work, SpotType.Curr);
             var moveToWork = new MoveTo(bb);
             var setAtWork = new SetAtWorkStation(bb);
 
@@ -181,7 +181,7 @@ namespace BehaviourTree
             var moveToEntrance = new MoveToNavmesh(bb);
 
             var checkInsideBuilding = new CheckInsideBuilding(bb);
-            var getPathToSell = new GetPathInBuilding(bb, PathType.Sell, PathType.Curr);
+            var getPathToSell = new GetPathInBuilding(bb, SpotType.Sell, SpotType.Curr);
             var moveToSpot = new MoveToNavmesh(bb);
             var moveToSellSpot = new MoveTo(bb);
 
@@ -218,11 +218,24 @@ namespace BehaviourTree
             var task = new Selector(bb, "Buy or Idle");
 
             var mainSeq = new Sequence(bb);
+            var moveInside = new Sequence(bb);
+            var optionalMoveInsideBuilding = new AlwaysSucceed(bb, moveInside);
+            var moveOutside = new AlwaysSucceed(bb, MoveOutside(bb));
+            var optionalMoveOutsideBuilding = new AlwaysSucceed(bb, moveOutside);
 
             var setTargetItem = new SetItemTarget(bb, itemName, itemAmount);
             var getClosestSelling = new GetClosestSellingItem(bb);
-            var getWalkSpotOfWorkshop = new GetSpotOfBuilding(bb, SpotType.Walk);
-            var moveToBuilding = new MoveToNavmesh(bb);
+            var getWalkSpotOfWorkshop = new GetSpotOfBuilding(bb, SpotType.Buy);
+
+            var checkPathInsideBuilding = new CheckTargetPointInsideBuilding(bb);
+            var getBuySpot = new GetSpotOfBuilding(bb, SpotType.Buy);
+            var setPathEndTarget = new SetTargetNode(bb, SetTargetNode.TargetNodeType.End);
+            var getEntrance = new GetEntranceThatLeadsToPoint(bb);
+            var setPathStartTarget = new SetTargetNode(bb, SetTargetNode.TargetNodeType.Start);
+            var moveToEntrance = new MoveToNavmesh(bb);
+            var getPathToBuySpot = new GetPathInBuilding(bb);
+            var moveToBuySpot = new MoveTo(bb);
+
             var enterQueue = new EnterTargetBuildingQueue(bb);
             var waitToBuy = new WaitTimeOrCondition(bb, 20f, () => bb.QueueFlag);
             var getExit = new GetWorldExit(bb);
@@ -232,9 +245,23 @@ namespace BehaviourTree
             mainSeq.controller.AddTask(setTargetItem);
             mainSeq.controller.AddTask(getClosestSelling);
             mainSeq.controller.AddTask(getWalkSpotOfWorkshop);
-            mainSeq.controller.AddTask(moveToBuilding);
+
+            moveInside.controller.AddTask(checkPathInsideBuilding);
+            moveInside.controller.AddTask(getBuySpot);
+            moveInside.controller.AddTask(setPathEndTarget);
+            moveInside.controller.AddTask(getEntrance);
+            moveInside.controller.AddTask(setPathStartTarget);
+            moveInside.controller.AddTask(moveToEntrance);
+            moveInside.controller.AddTask(getPathToBuySpot);
+            moveInside.controller.AddTask(moveToBuySpot);
+
+            mainSeq.controller.AddTask(optionalMoveInsideBuilding);
+
             mainSeq.controller.AddTask(enterQueue);
             mainSeq.controller.AddTask(waitToBuy);
+
+            mainSeq.controller.AddTask(optionalMoveOutsideBuilding);
+
             mainSeq.controller.AddTask(getExit);
             mainSeq.controller.AddTask(moveToExit);
             mainSeq.controller.AddTask(destroyMyself);
@@ -246,5 +273,23 @@ namespace BehaviourTree
 
             return task;
         }
+
+        public static Task MoveOutside(BlackBoard bb){
+            var mainSeq = new Sequence(bb);
+
+            var checkInside = new CheckInsideBuilding(bb);
+            var getEntrance = new GetEntranceThatLeadsToPoint(bb);
+            var getPath = new GetPathInBuilding(bb, SpotType.None, SpotType.Curr);
+            var moveToOutside = new MoveTo(bb);
+
+            mainSeq.controller.AddTask(checkInside);
+            mainSeq.controller.AddTask(getEntrance);
+            mainSeq.controller.AddTask(getPath);
+            mainSeq.controller.AddTask(moveToOutside);
+
+            return mainSeq;
+        }
     }
+
+
 }

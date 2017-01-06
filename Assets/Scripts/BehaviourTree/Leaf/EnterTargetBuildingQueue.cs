@@ -9,7 +9,7 @@
         public override void Start()
         {
             base.Start();
-            this.bb.targetBuilding.unitQueue.Enqueue(this.bb.myFootUnit);
+            this.bb.targetBuilding.UnitQueue.Enqueue(this.bb.myFootUnit);
             this.controller.FinishWithSuccess();
         }
     }

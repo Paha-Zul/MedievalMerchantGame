@@ -13,7 +13,7 @@
         {
             base.Start();
 
-            if(this.bb.targetBuilding.myUnit.inventory.HasItem(_itemName))
+            if(this.bb.targetBuilding.MyUnit.inventory.HasItem(_itemName))
                 this.controller.FinishWithSuccess();
             else
                 this.controller.FinishWithFailure();

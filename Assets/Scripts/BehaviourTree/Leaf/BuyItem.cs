@@ -27,7 +27,7 @@ public class BuyItem : LeafTask {
         }
 
         //Get the amount (either what the inventory has left or the amount we want, whichever is lower)
-        var amount = Mathf.Min(bb.targetBuilding.myUnit.inventory.GetItemAmount(bb.targetItem.Name), bb.targetItem.Amount);
+        var amount = Mathf.Min(bb.targetBuilding.MyUnit.inventory.GetItemAmount(bb.targetItem.Name), bb.targetItem.Amount);
         var cost = itemWanted.Value.Cost * amount; //Calulcate the cost
 
         //Check if we have enough money. If not, recalculate cost and amount to be taken.
@@ -39,10 +39,10 @@ public class BuyItem : LeafTask {
 
         //Transfer the money over.
         this.bb.myUnit.inventory.RemoveItemAmount("Gold Coin", cost);
-        this.bb.targetBuilding.myUnit.inventory.AddItem("Gold Coin", cost);
+        this.bb.targetBuilding.MyUnit.inventory.AddItem("Gold Coin", cost);
 
         //Take from the building's inventory and put into ours, transfer!
-        amount = bb.targetBuilding.myUnit.inventory.RemoveItemAmount(itemWanted.Value.Name, amount);
+        amount = bb.targetBuilding.MyUnit.inventory.RemoveItemAmount(itemWanted.Value.Name, amount);
         bb.myUnit.inventory.AddItem(itemWanted.Value.Name, amount);
 
         //Finish!

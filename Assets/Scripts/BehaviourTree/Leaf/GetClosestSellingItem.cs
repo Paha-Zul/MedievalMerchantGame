@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class GetClosestSellingItem : LeafTask {
     public GetClosestSellingItem(BlackBoard blackboard, string itemName = "", int itemAmount = 0) : base(blackboard) {
@@ -13,7 +14,7 @@ public class GetClosestSellingItem : LeafTask {
     public override void Start() {
         base.Start();
 
-        List<SellItems> sellingList = new List<SellItems>();
+        var sellingList = new List<SellItems>();
 
         //TODO Maybe change this so that we can use more than just a building. Like a merchant selling from himself?
 
@@ -21,7 +22,19 @@ public class GetClosestSellingItem : LeafTask {
         foreach (var b in bb.myUnit.playerTeam.team.buildingList) {
             var selling = b.GetComponent<SellItems>();
             if (selling)
-                sellingList.Add(selling);
+            {
+                var isSellingItem = false;
+                foreach (var pair in selling.itemsBeingSold)
+                    isSellingItem = pair.Name.Equals(bb.targetItem.Name);
+
+                if (!isSellingItem)
+                    continue;
+
+                var hasItemInInventory = b.MyUnit.inventory.HasItem(bb.targetItem.Name);
+
+                if(hasItemInInventory)
+                    sellingList.Add(selling);
+            }
         }
 
         //Secondly, get the closest selling building.

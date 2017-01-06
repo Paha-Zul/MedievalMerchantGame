@@ -40,6 +40,14 @@ public class GetSpotOfBuilding : LeafTask {
                 spots = bb.targetBuilding.DeliverySpots.Count - 1;
                 spot = bb.targetBuilding.DeliverySpots[Random.Range(0, spots)];
                 break;
+            case SpotType.Sell:
+                spots = bb.targetBuilding.SellSpots.Count - 1;
+                spot = bb.targetBuilding.SellSpots[Random.Range(0, spots)];
+                break;
+            case SpotType.Buy:
+                spots = bb.targetBuilding.BuySpots.Count - 1;
+                spot = bb.targetBuilding.BuySpots[Random.Range(0, spots)];
+                break;
             default:
                 spot = null;
                 break;

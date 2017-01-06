@@ -9,16 +9,16 @@ public class CheckWorkshopHasInputItem : LeafTask {
     public override void Start() {
         base.Start();
 
-        WorkShop shop = bb.myWorkerUnit.myBuilding;
+        WorkShop shop = bb.myWorkerUnit.MyBuilding as WorkShop;
 
-        var inputItemName = DataDefs.prodDefMap[shop.producesItem].inputItem;
-        var amountInInventory = shop.myUnit.inventory.GetItemAmount(inputItemName);
+        var inputItemName = DataDefs.prodDefMap[shop.ItemsProduced.ItemToProduce].inputItem;
+        var amountInInventory = shop.MyUnit.inventory.GetItemAmount(inputItemName);
 
         //If the Workshop has enough of the input item, success! Otherwise, fail!
-        if (amountInInventory >= shop.itemsProducedAtATime)
+        if (amountInInventory >= shop.ItemsProduced.ItemsProducedAtATime)
             this.controller.FinishWithSuccess();
         else {
-            Debug.Log("Task: Inventory doesn't have enough. Amount needed: " + shop.itemsProducedAtATime + ", amount in inv: " + amountInInventory);
+            Debug.Log("Task: Inventory doesn't have enough. Amount needed: " + shop.ItemsProduced.ItemsProducedAtATime + ", amount in inv: " + amountInInventory);
             this.controller.FinishWithFailure();
         }
     }

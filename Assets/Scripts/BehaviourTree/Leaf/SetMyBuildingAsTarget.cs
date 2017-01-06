@@ -9,7 +9,7 @@ public class SetMyBuildingAsTarget : LeafTask {
     public override void Start() {
         base.Start();
 
-        this.bb.targetBuilding = bb.myWorkerUnit.myBuilding;
+        this.bb.targetBuilding = bb.myWorkerUnit.MyBuilding;
         this.controller.FinishWithSuccess();
     }
 }

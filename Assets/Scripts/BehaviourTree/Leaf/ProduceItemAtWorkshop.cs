@@ -18,8 +18,8 @@ public class ProduceItemAtWorkshop : LeafTask {
             this.controller.FinishWithFailure();
         }
 
-        _itemProduction = DataDefs.prodDefMap[bb.myWorkerUnit.myBuilding.producesItem];
-        _workshopInv = bb.myWorkerUnit.myBuilding.myUnit.inventory;
+        _itemProduction = DataDefs.prodDefMap[bb.myWorkerUnit.MyBuilding.ItemsProduced.ItemToProduce];
+        _workshopInv = bb.myWorkerUnit.MyBuilding.MyUnit.inventory;
     }
 
     public override void Update(float delta) {

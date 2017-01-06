@@ -22,7 +22,7 @@ public class Player {
     }
 	
     public void addBuilding(Building building) {
-        building.myUnit.playerTeam.team = this;
+        building.MyUnit.playerTeam.team = this;
         buildingList.Add(building);
     }
 

@@ -11,9 +11,9 @@
         {
             base.Start();
 
-            if (this.bb.targetBuilding.unitQueue.Count > 0)
+            if (this.bb.targetBuilding.UnitQueue.Count > 0)
             {
-                this.bb.targetFootUnit = this.bb.targetBuilding.unitQueue.Dequeue();
+                this.bb.targetFootUnit = this.bb.targetBuilding.UnitQueue.Dequeue();
                 this.controller.FinishWithSuccess();
             }
             else

@@ -46,7 +46,7 @@ namespace Util
             foreach (Building building in buildingList) {
                 if (building is Stockpile) {
                     var dst = Vector3.Distance(point, building.transform.position);
-                    if (dst <= closestDst && building.myUnit.inventory.GetItemAmount(itemName) >= amount) {
+                    if (dst <= closestDst && building.MyUnit.inventory.GetItemAmount(itemName) >= amount) {
                         closestBuilding = building as Stockpile;
                         closestDst = dst;
                     }

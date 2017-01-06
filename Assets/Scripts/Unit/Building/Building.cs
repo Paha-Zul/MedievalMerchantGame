@@ -2,14 +2,18 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts;
+using Assets.Scripts.MonoBehaviours;
 
 [RequireComponent(typeof(Unit))]
 [RequireComponent(typeof(Inventory))]
 [RequireComponent(typeof(PlayerTeam))]
 public class Building : MonoBehaviour {
-    public Unit myUnit { get; private set; }
+    public Unit MyUnit { get; private set; }
+    public ProducesItem ItemsProduced { get; private set; }
+    public Workers Workers { get; private set; }
 
-    public Queue<FootUnit> unitQueue = new Queue<FootUnit>();
+    public Queue<FootUnit> UnitQueue = new Queue<FootUnit>();
 
     public List<Transform> BuySpots = new List<Transform>();
     public List<Transform> DeliverySpots = new List<Transform>();
@@ -21,7 +25,9 @@ public class Building : MonoBehaviour {
 
     public void Awake() {
         this.tag = "Building";
-        this.myUnit = this.GetComponent<Unit>();
+        this.MyUnit = this.GetComponent<Unit>();
+        this.Workers = this.GetComponent<Workers>();
+        this.ItemsProduced = this.GetComponent<ProducesItem>();
 
         var spots = transform.FindChild("Spots");
 

@@ -1,41 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
+using Assets.Scripts.MonoBehaviours;
 using BehaviourTree;
 using Util;
+using Util = Util.Util;
 
+[RequireComponent(typeof(Workers))]
+[RequireComponent(typeof(ProducesItem))]
 public class WorkShop : Building {
     public enum WorkshopType { Lumber }
     public WorkshopType workshopType = WorkshopType.Lumber;
-
-    private List<WorkerUnit> workerUnitList = new List<WorkerUnit>();
-
-    public int itemsProducedAtATime = 20;
-    public string producesItem = "Wood Plank";
 
 	// Use this for initialization
 	void Start () {
         base.Start();
 
         StartCoroutine(AssignWorkersCoroutine());
-
-	    //TESTING
-	    var entrance = EntranceSpots[0];
-	    var work = WorkSpots[0];
-
 	}
 
     // Update is called once per frame
     void Update () {
         
-    }
-
-    public void AddWorker(WorkerUnit worker) {
-        this.workerUnitList.Add(worker);
-    }
-
-    public void RemoveWorker(WorkerUnit worker) {
-        this.workerUnitList.Remove(worker);
     }
 
     IEnumerator AssignWorkersCoroutine() {
@@ -50,12 +37,12 @@ public class WorkShop : Building {
 
     void AssignWorkers()
     {
-        var count = workerUnitList.Count;
+        var count = Workers.WorkerUnitList.Count;
         switch (count)
         {
             case 1:
             {
-                var worker = workerUnitList[0];
+                var worker = Workers.WorkerUnitList[0];
                 if (worker.MyUnit.manager.idle) {
                     worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, true, true);
                 }
@@ -63,12 +50,12 @@ public class WorkShop : Building {
                 break;
             case 2:
             {
-                var worker = workerUnitList[0];
+                var worker = Workers.WorkerUnitList[0];
                 if (worker.MyUnit.manager.idle) {
                     worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, false, true);
                 }
 
-                var worker2 = workerUnitList[1];
+                var worker2 = Workers.WorkerUnitList[1];
                 if (worker2.MyUnit.manager.idle) {
                     worker2.MyUnit.manager.currTask = Tasks.HaulTask(worker2.MyUnit.manager.bb, "Wood Log");
                 }
@@ -76,17 +63,17 @@ public class WorkShop : Building {
                 break;
             case 3:
             {
-                var worker = workerUnitList[0];
+                var worker = Workers.WorkerUnitList[0];
                 if (worker.MyUnit.manager.idle) {
                     worker.MyUnit.manager.currTask = Tasks.WorkAtWorkshop(worker.MyUnit.manager.bb, false, false);
                 }
 
-                var worker2 = workerUnitList[1];
+                var worker2 = Workers.WorkerUnitList[1];
                 if (worker2.MyUnit.manager.idle) {
                     worker2.MyUnit.manager.currTask = Tasks.HaulTask(worker2.MyUnit.manager.bb, "Wood Log");
                 }
 
-                var worker3 = workerUnitList[2];
+                var worker3 = Workers.WorkerUnitList[2];
                 if (worker3.MyUnit.manager.idle) {
                     worker3.MyUnit.manager.currTask = Tasks.SellItemFromStore(worker3.MyUnit.manager.bb);
                 }

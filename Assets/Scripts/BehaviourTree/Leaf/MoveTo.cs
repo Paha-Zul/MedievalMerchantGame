@@ -6,12 +6,12 @@ using Util;
 /// A move behaviour that uses a list of waypoints to move. Does not use Unity's navmesh.
 /// </summary>
 public class MoveTo : LeafTask {
-    Transform[] waypoints;
-    int currWaypoint = 0;
-    float speed;
-    float dstToStop = 0.1f;
-    NavMeshAgent agent;
-    private FootUnit myFootUnit;
+    private Transform[] _waypoints;
+    private int _currWaypoint = 0;
+    private float _speed;
+    readonly float _dstToStop = 0.1f;
+    private NavMeshAgent _agent;
+    private FootUnit _myFootUnit;
 
     /// <summary>
     /// Manually moves the unity along waypoints. Optionally can take an array of waypoints.
@@ -19,37 +19,38 @@ public class MoveTo : LeafTask {
     /// <param name="bb"></param>
     /// <param name="waypoints">Optional array of transforms (waypoints)</param>
     public MoveTo(BlackBoard bb, Transform[] waypoints = null) : base(bb) {
-        this.waypoints = waypoints;
+        this._waypoints = waypoints;
     }
 
     public override void Start() {
         base.Start();
 
-        this.myFootUnit = bb.myUnit.GetComponent<FootUnit>();
+        this._myFootUnit = bb.myUnit.GetComponent<FootUnit>();
 
-        if (waypoints == null)
-            this.waypoints = bb.waypoints;
+        if (_waypoints == null)
+            this._waypoints = bb.waypoints;
 
-        agent = myFootUnit.GetComponent<NavMeshAgent>();
-        speed = agent.speed;
-        agent.Stop();
-        agent.updatePosition = false;
+        _agent = _myFootUnit.GetComponent<NavMeshAgent>();
+        _speed = _agent.speed;
+        _agent.enabled = false;
+//        _agent.Stop();
+//        _agent.updatePosition = false;
     }
 
     public override void Update(float delta) {
         base.Update(delta);
 
-        if (Vector3.Distance(myFootUnit.transform.position, this.waypoints[currWaypoint].position) <= dstToStop)
+        if (Vector3.Distance(_myFootUnit.transform.position, this._waypoints[_currWaypoint].position) <= _dstToStop)
         {
-            myFootUnit.CurrPathNode = waypoints[currWaypoint].GetComponent<PathNode>();
-            currWaypoint++;
-            if (currWaypoint >= this.waypoints.Length) {
+            _myFootUnit.CurrPathNode = _waypoints[_currWaypoint].GetComponent<PathNode>();
+            _currWaypoint++;
+            if (_currWaypoint >= this._waypoints.Length) {
                 this.controller.FinishWithSuccess();
             }
         } else {
-            var move = this.speed * delta;
-            var newPos = Vector3.MoveTowards(myFootUnit.transform.position, this.waypoints[currWaypoint].position, move);
-            myFootUnit.transform.position = newPos;
+            var move = this._speed * delta;
+            var newPos = Vector3.MoveTowards(_myFootUnit.transform.position, this._waypoints[_currWaypoint].position, move);
+            _myFootUnit.transform.position = newPos;
         }
     }
 }

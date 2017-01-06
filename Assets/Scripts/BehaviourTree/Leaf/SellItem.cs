@@ -39,7 +39,7 @@ namespace Assets.Scripts.BehaviourTree.Leaf
                 return;
             }
 
-            var buildingInventory = this.bb.targetBuilding.myUnit.inventory;
+            var buildingInventory = this.bb.targetBuilding.MyUnit.inventory;
             var targetInventory = this.bb.targetFootUnit.MyUnit.inventory;
 
             var amtToSell = Math.Min(buildingInventory.GetItemAmount(itemWanted.Name), _someRandomAmountForNow); //The amount the building inventory has to offer

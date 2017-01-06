@@ -2,6 +2,6 @@
 {
     public enum SpotType
     {
-        Entrance, Walk, Work, Delivery, Sell
+        None, Entrance, Walk, Work, Delivery, Sell, Buy, Curr
     }
 }

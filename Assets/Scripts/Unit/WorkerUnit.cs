@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Assets.Scripts;
 using Util;
 
 public class WorkerUnit : FootUnit {
-    public WorkShop myBuilding;
-
-
+    public Building MyBuilding;
 
     void Awake() {
         base.Awake();
@@ -25,15 +24,19 @@ public class WorkerUnit : FootUnit {
 	}
 
     IEnumerator FindMyBuilding() {
-        bool foundBuilding = false;
+        var foundBuilding = false;
         var wait = new WaitForSeconds(0.5f);
         while(!foundBuilding) {
             yield return wait;
-            if (myBuilding == null) {
-                var workshop = Finder.FindClosestBuildingOfType<WorkShop>(TeamManager.GetTeam("Player1").buildingList, this.transform.position);
-                if (workshop != null) {
-                    this.myBuilding = workshop;
-                    workshop.AddWorker(this);
+            if (MyBuilding == null) {
+                var building = Finder.FindClosestBuildingOfType<Building>(TeamManager.GetTeam("Player1").buildingList, this.transform.position);
+                if (building != null)
+                {
+                    var workers = building.GetComponent<Workers>();
+                    if (workers == null) continue;
+
+                    this.MyBuilding = building;
+                    workers.AddWorker(this);
                 }
             } else
                 foundBuilding = true;

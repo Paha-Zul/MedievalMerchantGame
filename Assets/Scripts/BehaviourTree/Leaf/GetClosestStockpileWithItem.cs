@@ -26,7 +26,7 @@ public class GetClosestStockpileWithItem : LeafTask {
          //If found, set the blackboard target and finish with success.
         } else {
             this.bb.targetBuilding = building;
-            this.bb.targetInventory = building.myUnit.inventory;
+            this.bb.targetInventory = building.MyUnit.inventory;
             this.controller.FinishWithSuccess();
         }
     }
